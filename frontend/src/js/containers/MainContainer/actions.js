@@ -28,7 +28,10 @@ import {
     PUT_MESSAGE_ISREAD,
     PUT_MESSAGE_LASTDATETIME,
     PUT_MESSAGE_ISAREA,
-    PUT_MESSAGE_ISSHOW
+    PUT_MESSAGE_ISSHOW,
+    ON_LINE,
+    OFF_LINE,
+    UPDATE_ONLINE_DEVICE
 } from './constants';
 
 /**
@@ -108,4 +111,25 @@ export const putMessageIsShow = (obj) => ({
     payload: obj
 });
 
-//export const GET_ALARM_MSG = () => ({});
+/**
+ *  上线
+ * @param code
+ */
+export const onLine = (code) => ({
+    type: ON_LINE,
+    payload: code
+});
+
+/**
+ * 下线
+ * @constructor
+ */
+export const offLine = (code) => ({
+    type: OFF_LINE,
+    payload: code
+});
+
+export const updateOnlineDevice = (data) => ({
+    type: UPDATE_ONLINE_DEVICE,
+    payload: data
+});

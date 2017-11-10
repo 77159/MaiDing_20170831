@@ -58,10 +58,10 @@ import {getPeopleCategory} from '../CategoryFormModel/actions';
 import {peopleCategorySourceSelector} from '../CategoryFormModel/selectors';
 
 //action main
-import {putMessageIsRead, putMessageIsShow} from '../MainContainer/actions';
+import {putMessageIsRead, putMessageIsShow,} from '../MainContainer/actions';
 
 //selectors main
-import {alertMessageDataSelector} from '../MainContainer/selectors';
+import {alertMessageDataSelector, offLineSelector} from '../MainContainer/selectors';
 
 //自定义组件
 import PeopleCard from '../../components/peopleCard';
@@ -123,7 +123,8 @@ const CollectionCreateForm = Form.create()(
             dataIndex: 'remark',
             key: 'remark',
             render: function (text, record, index) {
-                return <span className={record.isRead === 0 ? styles.bold : styles.normal}>{record.personName}{record.remark}</span>
+                return <span
+                    className={record.isRead === 0 ? styles.bold : styles.normal}>{record.personName}{record.remark}</span>
             }
         }, {
             title: '操作',
@@ -238,12 +239,11 @@ export class MonitoringPage extends React.Component {
     updateAreaName = () => {
         let people = this.state.people;
         if (!this.state.peopleCardHidden && people) {
-            this.props.alertMessageData.forEach((item) => {
-                people.areaName = '无法获取';
-                if (item.personCode === people.personCode && item.isArea) {
-                    people.areaName = item.areaName ? item.areaName : '无法获取';
-                }
-            });
+            const realTimeLocations = this.props.realTimeLocations;
+            if (realTimeLocations.personCode === people.personCode) {
+                console.log('realTimeLocations', realTimeLocations);
+                people.areaName = realTimeLocations.areaName ? realTimeLocations.areaName : '无法获取';
+            }
         }
     };
 
@@ -508,8 +508,13 @@ export class MonitoringPage extends React.Component {
         const peopleList = this.state.peopleList;
         this.onLineCount = 0;   //在线人数
 
+        //处理已经下线的数据
+
         //检查在线人数
         peopleList.map((people) => {
+            const personCode = people.personCode;
+            const imageMarker = this.personImageMarkers[personCode];
+            people.onLine = false;
             if (!this.onLineDevice) return;
             this.onLineDevice.map((device) => {
                 if (device.deviceCode === people.deviceCode) {
@@ -517,6 +522,11 @@ export class MonitoringPage extends React.Component {
                     this.onLineCount++;
                 }
             });
+
+            if (!people.onLine && imageMarker) {
+                imageMarker.imageMarker.dispose();
+                delete this.personImageMarkers[personCode];
+            }
         });
 
 
@@ -892,7 +902,8 @@ export function actionsDispatchToProps(dispatch) {
         getPeopleCategory: () => dispatch(getPeopleCategory()),
         queryAreaListBegin: () => dispatch(queryAreaListBegin()),
         putMessageIsRead: (id) => dispatch(putMessageIsRead(id)),
-        putMessageIsShow: (id) => dispatch(putMessageIsShow(id))
+        putMessageIsShow: (id) => dispatch(putMessageIsShow(id)),
+
     }
 }
 
@@ -904,6 +915,7 @@ const selectorStateToProps = createStructuredSelector({
     onLineDevice: SelectorOnLineDevice(),
     alertMessageData: alertMessageDataSelector(),
     peopleList: peopleListSelector(),
+
 });
 
 export default connect(selectorStateToProps, actionsDispatchToProps)(MonitoringPage);

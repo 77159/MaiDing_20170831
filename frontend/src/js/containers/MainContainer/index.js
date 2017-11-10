@@ -23,11 +23,14 @@ import {
     getOnlineDevice,
     pushAlarmMessage,
     putMessageLastDateTime,
-    putMessageIsArea
+    putMessageIsArea,
+    offLine,
+    updateOnlineDevice
 } from "./actions";
 
 import {
     alertMessageDataSelector,
+    offLineSelector
 } from './selectors'
 
 const {Content} = Layout;
@@ -150,10 +153,13 @@ export class MainContainer extends React.Component {
 
             //设备上线
             if (data.type === 1) {
-                return;
+                this.props.updateOnlineDevice({code: data, type: 'on'});
             }
             //设备下线
             if (data.type === 2) {
+                const personCode = data.personCode;
+                if (!personCode) return;
+                this.props.updateOnlineDevice({code: personCode, type: 'off'});
                 return;
             }
             //获取报警信息
@@ -201,11 +207,14 @@ export function actionsDispatchToProps(dispatch) {
         pushAlarmMessage: (alarmMessage) => dispatch(pushAlarmMessage(alarmMessage)),
         putMessageLastDateTime: (obj) => dispatch(putMessageLastDateTime(obj)),
         putMessageIsArea: (obj) => dispatch(putMessageIsArea(obj)),
+        updateOnlineDevice: (data) => dispatch(updateOnlineDevice(data)),
+        addOffLine: (persConde) => dispatch(offLine(persConde)),
     };
 }
 
 const selectorStateToProps = createStructuredSelector({
     alertMessageData: alertMessageDataSelector(),
+    offline: offLineSelector()
 });
 
 // Wrap the component to inject dispatch and state into it

@@ -73,10 +73,10 @@ export class AreaSubMenu extends React.Component {
                         const gid = item.gid;
                         const floorName = item.gname.toUpperCase();
                         return (
-                            <SubMenu key={floorName} title={
+                            <SubMenu key={'F1'} title={
                                 <section>
                                     <Icon type="appstore" className={styles.floorIcon}/>
-                                    <span className={styles.floorName}>{floorName}</span>
+                                    <span className={styles.floorName}>{'F1'}</span>
                                     <Button onClick={
                                         (e) => {
                                             this.createArea(e);

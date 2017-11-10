@@ -15,6 +15,7 @@
  * @describe 主界面 Reducer
  */
 
+
 'use strict';
 import {fromJS} from 'immutable';
 
@@ -27,6 +28,9 @@ import {
     PUT_MESSAGE_LASTDATETIME,
     PUT_MESSAGE_ISAREA,
     PUT_MESSAGE_ISSHOW,
+    OFF_LINE,
+    ON_LINE,
+    UPDATE_ONLINE_DEVICE
 } from './constants';
 
 // The initial state of the App
@@ -38,6 +42,8 @@ const initialState = fromJS({
     onlineDevice: null,         //获取当前最新设备
     alertMessageData: [],       //报警数据
     isReadCount: 0,             //已读条数
+    online: [],
+    offline: ['111'],
 });
 
 
@@ -106,6 +112,35 @@ export default (state = initialState, action = {}) => {
                 item.isShow = payload.isShow;
             }
         });
+    }
+
+    //下线
+    if (type === OFF_LINE) {
+        let online = state.get('offline');
+        return state.set('offline', online.push(payload));
+    }
+
+    //上线
+    if (type === ON_LINE) {
+        let online = state.get('online');
+        return state.set('online', online.push(payload));
+    }
+
+    //更新最新设备
+    if (type === UPDATE_ONLINE_DEVICE) {
+        let onlineDevice = state.get('onlineDevice');
+        const {code, type} = payload;
+        let device = [];
+        if (type === 'off') {
+            device = onlineDevice.filter((item) => {
+                return code !== item.personCode;
+            });
+        }
+        if (type === 'on') {
+            device.push(code);
+        }
+
+        return state.set('onlineDevice', device);
     }
 
     return state;

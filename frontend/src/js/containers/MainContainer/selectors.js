@@ -29,9 +29,18 @@ const alertMessageDataSelector = () => createSelector(
     (globalState) => globalState.get('alertMessageData')
 );
 
+/**
+ * 获取当前所有的报警信息
+ */
+const offLineSelector = () => createSelector(
+    selectMainContainer,
+    (globalState) => globalState.get('offline')
+);
+
 export {
     selectMainContainer,
     realTimeLocationsSelector,
     SelectorOnLineDevice,
     alertMessageDataSelector,
+    offLineSelector,
 };

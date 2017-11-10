@@ -92,8 +92,8 @@ export class TraceReplayPage extends React.Component {
             alarmLoading: false,
             alarmConfirmLoading: false,
             ModalText: 'Content of the modal',
-            startValue: moment('2017-10-18 13:48:29'),
-            endValue: moment('2017-10-18 14:48:29'),
+            startValue: null,
+            endValue: null,
             totalTime: null,
             endOpen: false,
             visibleReplay: false,
@@ -850,7 +850,8 @@ export class TraceReplayPage extends React.Component {
                             </div>
                             {/*停止回放按钮*/}
                             <div ref='stop' style={{display: 'none'}} className={styles.stopPlayback}>
-                                <Button type="danger" className={styles.startReplay} onClick={this.stopPlayback}>停止回放</Button>
+                                <Button type="danger" className={styles.startReplay}
+                                        onClick={this.stopPlayback}>停止回放</Button>
                             </div>
                             {/*菜单尾部*/}
                             {this.getFooter()}

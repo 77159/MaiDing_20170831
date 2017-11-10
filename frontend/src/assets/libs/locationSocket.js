@@ -74,7 +74,9 @@ function newWebSocket(url, onopen, onmessage, onclose, onerror) {
 }
 
 function openWS() {
+    //wsUrl = "ws://localhost:8080/fm_csv/websocket.ws?token=" + token;
     wsUrl = "ws://192.168.1.97:8080/fm_csv/websocket.ws?token=" + token;
+    //wsUrl = "ws://localhost:8080/fm_csv/websocket.ws?token=" + token;
     ws = newWebSocket(wsUrl, onOpen, onReceivedMessage, onClose, onError);
 }
 

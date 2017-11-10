@@ -109,6 +109,7 @@ class AreaFormPanel extends React.Component {
 
     /**
      * 验证区域名称是否唯一
+     * @param id  区域id
      * @param rule 规则
      * @param value 当前的值
      * @param callback 需要执行的回调函数
@@ -161,7 +162,7 @@ class AreaFormPanel extends React.Component {
                                     regexp: 'regexp',
                                     pattern: appRegExp.AREANAME,
                                     message: appRegExp.AREANAME_ERROR_MSG
-                                }, {validator: this.validatorAreaName}],
+                                }, {validator: area.get('id') ? null : this.validatorAreaName}],
                                 initialValue: area.get('areaName'),
                             })(
                                 <Input placeholder="区域名称"/>

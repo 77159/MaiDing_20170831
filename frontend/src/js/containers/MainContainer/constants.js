@@ -23,3 +23,6 @@ export const PUT_MESSAGE_ISREAD = 'MainContainer/PUT_MESSAGE_ISREAD';           
 export const PUT_MESSAGE_LASTDATETIME = 'MainContainer/PUT_MESSAGE_LASTDATETIME';           //更新报警最后更新时间
 export const PUT_MESSAGE_ISAREA = 'MainContainer/PUT_MESSAGE_ISAREA';                       //更新人员是否在重点区域
 export const PUT_MESSAGE_ISSHOW = 'MainContainer/PUT_MESSAGE_ISSHOW';                       //更新人员是否在已显示提示信息
+export const OFF_LINE = 'MainContainer/OFF_LINE';                                       //下线人员
+export const ON_LINE = 'MainContainer/ON_LINE';                                       //上线人员
+export const UPDATE_ONLINE_DEVICE = 'MainContainer/UPDATE_ONLINE_DEVICE';               //更新当前在线设备
