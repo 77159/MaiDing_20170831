@@ -175,8 +175,6 @@ export class DeviceMgrPage extends React.Component {
         };
 
         const {deviceDataSource, tableDataLoading} = this.props;
-        //数据总数
-        const dataCount = deviceDataSource != null ? deviceDataSource.length : 0;
 
         const columns = [{
             title: '设备编号',
@@ -328,7 +326,7 @@ export class DeviceMgrPage extends React.Component {
                     <Row className={styles.tableRow}>
                         <Col span={24}>
                             <Table rowSelection={selection} rowKey={record => record.deviceCode}
-                                   className={styles.table} bordered={true} footer={() => '共计 ' + dataCount + ' 条数据'}
+                                   className={styles.table} bordered={true} footer={(record) => '共计 ' + record.length + ' 条数据'}
                                    size="middle"
                                    loading={tableDataLoading}
                                    columns={columns} dataSource={deviceDataSource}>

@@ -257,12 +257,6 @@ export class PeopleMgrPage extends React.Component {
         this.props.deletePeople(personCode);
     };
 
-    //数据总数
-    footer = () => {
-        let peopleDataSource = this.props.peopleDataSource;
-        const dataCount = peopleDataSource != null ? peopleDataSource.length : 0;
-        return `共计 ${dataCount} 条数据`;
-    };
 
     render() {
         const {peopleDataSource, tableDataLoading, peopleCategory} = this.props;
@@ -462,7 +456,7 @@ export class PeopleMgrPage extends React.Component {
                             <Table rowSelection={rowSelection}
                                    rowKey={record => record.personCode}
                                    className={styles.table} bordered={true}
-                                   footer={this.footer}
+                                   footer={(record) => '共计 ' + record.length + ' 条数据'}
                                    size="middle"
                                    loading={tableDataLoading}
                                    columns={columns} dataSource={peopleDataSource}>
