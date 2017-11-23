@@ -93,7 +93,7 @@ export default class MonitoringMap extends React.Component {
             //渲染dom
             container: document.getElementById('fengMap'),
             //地图数据位置
-            mapServerURL: 'assets/map/',
+            mapServerURL: 'assets/map',
             //主题数据位置
             mapThemeURL: 'assets/theme',
             //设置主题
@@ -227,7 +227,7 @@ export default class MonitoringMap extends React.Component {
     updateMark = (locationEntity) => {
         if (!this.fmMap) return;
         //查找此人员当前是否已存在
-        if (this.state.allPeopleLocationMap.has(locationEntity.personCode) == true) {
+        if (this.props.personImageMarkers[locationEntity.personCode]) {
             //获取到之前已添加的人员位置实体
             let peopleLocation = this.state.allPeopleLocationMap.get(locationEntity.personCode);
             //更新ImageMarker的位置

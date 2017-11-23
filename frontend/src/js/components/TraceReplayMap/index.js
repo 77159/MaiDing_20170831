@@ -40,6 +40,7 @@ export default class TraceReplayMap extends React.Component {
         this.ss = 0;
         this.sec = 1000;
         this.speedTag = 'x1';
+        this.preCoords = {};
         //this.playIcon = 'pause-circle';
     }
 
@@ -387,7 +388,7 @@ export default class TraceReplayMap extends React.Component {
         const {traceDataSource} = this.props;
 
         let t = _.cloneDeep(time);
-        const dataTime = t.add(s, 's').format('YYYY-MM-DD HH:mm:ss')
+        const dataTime = t.add(s, 's').format('YYYY-MM-DD HH:mm:ss');
 
         for (let personCode in traceDataSource) {
             const data = traceDataSource[personCode];
@@ -402,7 +403,7 @@ export default class TraceReplayMap extends React.Component {
                 this.updateMark(personCode, coord);
 
                 //画线
-                const lineCoords = {x: coord.pointX, y: coord.pointY, z: 0};
+                const lineCoords = {x: coord.pointX, y: coord.pointY, z: 0, groupID: 1};
                 this.addLines(personCode, lineCoords);
                 this.drawLines(personCode);
             }
@@ -410,6 +411,17 @@ export default class TraceReplayMap extends React.Component {
     };
 
     addLines = (personCode, lineCoords) => {
+
+        const preCoords = this.preCoords[personCode];
+        if (preCoords) {
+            const x = preCoords.x;
+            const y = preCoords.y;
+            if (_.trim(x) === _.trim(lineCoords.x) && _.trim(y) === _.trim(lineCoords.y)) {
+                return;
+            }
+        }
+
+
         let naviCoords = this.naviCoords[personCode];
         if (!naviCoords) {
             naviCoords = {};
@@ -431,6 +443,7 @@ export default class TraceReplayMap extends React.Component {
                 naviCoords[key].push(lineCoords);
             }
         }
+        this.preCoords[personCode] = lineCoords;
         this.naviCoords[personCode] = naviCoords;
     };
 
@@ -637,7 +650,15 @@ export default class TraceReplayMap extends React.Component {
         return (
             <div style={{width: '100%', height: '100%'}}>
                 <div id="fengMap" style={{width: '100%', height: '100%', positio: 'relative'}}>
-                    <div style={{position: 'absolute', width: 48, right: '20px', top: '70px', display: 'flex', justifyContent: 'baseline', flexDirection: 'column'}}>
+                    <div style={{
+                        position: 'absolute',
+                        width: 48,
+                        right: '20px',
+                        top: '70px',
+                        display: 'flex',
+                        justifyContent: 'baseline',
+                        flexDirection: 'column'
+                    }}>
                         <span className={styles.mapActionBtn} onClick={this.changeModelView}>
                             <img src={`./img/fm_controls/${this.state.modelView}.png`}></img>
                         </span>

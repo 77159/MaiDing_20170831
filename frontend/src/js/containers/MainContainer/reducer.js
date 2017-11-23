@@ -139,7 +139,6 @@ export default (state = initialState, action = {}) => {
         if (type === 'on') {
             device.push(code);
         }
-
         return state.set('onlineDevice', device);
     }
 

@@ -534,6 +534,9 @@ export class TraceReplayPage extends React.Component {
 
         const startValue = this.state.startValue;   //开始时间
         const endValue = this.state.endValue;       //结束时间
+
+        if (!startValue || !endValue) return;
+
         const seconds = endValue.diff(startValue, 'seconds');
 
         //开始时间不为空

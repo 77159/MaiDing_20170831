@@ -241,13 +241,18 @@ export class MonitoringPage extends React.Component {
         if (!this.state.peopleCardHidden && people) {
             const realTimeLocations = this.props.realTimeLocations;
             if (realTimeLocations.personCode === people.personCode) {
-                console.log('realTimeLocations', realTimeLocations);
                 people.areaName = realTimeLocations.areaName ? realTimeLocations.areaName : '无法获取';
             }
         }
     };
 
     componentWillReceiveProps(nextProps) {
+        if (_.eq(this.peopleList, nextProps.peopleList) == false) {
+            this.setState({
+                peopleList: nextProps.peopleList
+            });
+        }
+
         if (_.eq(this.onLineDevice, nextProps.onLineDevice) == false) {
             this.onLineDevice = nextProps.onLineDevice;
 
@@ -369,7 +374,6 @@ export class MonitoringPage extends React.Component {
     };
 
     handleCancel = () => {
-        console.log('Clicked cancel button');
         this.setState({
             alarmModalVisible: false,
         });
@@ -394,6 +398,7 @@ export class MonitoringPage extends React.Component {
             return item.id == id;
         });
 
+        if (!item) return;
         return item[0].name;
     }
 
@@ -508,8 +513,6 @@ export class MonitoringPage extends React.Component {
         const peopleList = this.state.peopleList;
         this.onLineCount = 0;   //在线人数
 
-        //处理已经下线的数据
-
         //检查在线人数
         peopleList.map((people) => {
             const personCode = people.personCode;
@@ -526,6 +529,9 @@ export class MonitoringPage extends React.Component {
             if (!people.onLine && imageMarker) {
                 imageMarker.imageMarker.dispose();
                 delete this.personImageMarkers[personCode];
+                this.setState({
+                    delPersonCode: personCode
+                })
             }
         });
 
@@ -569,12 +575,14 @@ export class MonitoringPage extends React.Component {
                             ?
                             <div className={styles.btnContent}>
                                 <Button onClick={(e) => {
+                                    e.stopPropagation();
                                     this.visiblePeopleBtn(e, personCode);
                                 }}
                                         type="primary"
                                         icon={visible ? 'eye-o' : 'eye'}
                                         title="隐藏/可见"/>
                                 <Button style={{color: color}} onClick={(e) => {
+                                    e.stopPropagation();
                                     this.peopleLocationBtn(e, personCode);
                                     this.onPeopleItemSelected({key: personCode});
                                 }}
@@ -855,6 +863,7 @@ export class MonitoringPage extends React.Component {
                         personImageMarker={this.personImageMarker}
                         positionPersonCode={this.state.positionPersonCode}
                         layerVisible={this.state.layerVisible}
+                        personImageMarkers={this.personImageMarkers}
                         keyArea={this.props.keyArea}/>
                     {/*人员详细信息*/}
                     <PeopleCard
