@@ -109,7 +109,7 @@ export class MainContainer extends React.Component {
                 const alertInfo = data.alertInfo;
                 //报警集合
                 const alertMessageData = this.props.alertMessageData;
-                //查找当前是否
+                //查找当前是否已经在报警信息里
                 const areaAlterMessage = alertMessageData.filter((item) => {
                     return data.personCode === item.personCode && item.isArea === true;
                 });

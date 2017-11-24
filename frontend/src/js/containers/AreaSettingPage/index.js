@@ -468,7 +468,7 @@ export class AreaSettingPage extends React.Component {
                                 updatePolygonLineStyle={this.updatePolygonLineStyle}    //修改地图区域边线
                             />
                         </Content>
-                        <Footer>
+                        <Footer style={{backgroundColor: '#443a49'}}>
                             {/*区域设置表单*/}
                             <AreaFormPanel
                                 cancelPolygon={this.cancelPolygon}          //取消表单

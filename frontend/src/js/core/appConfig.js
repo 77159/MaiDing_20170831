@@ -10,8 +10,8 @@
 
 export const AppConfig = {
     //后台接口服务地址
-    //serviceUrl: 'http://localhost:8080/fm_csv/',
-    serviceUrl: 'http://192.168.1.97:8080/fm_csv/',
+    //serviceUrl: 'http://192.168.1.97:8080/fm_csv/',
+    serviceUrl: 'http://123.56.157.161:8082/fm_csv/',
     //token: '',
     get token() {
         return document.cookie;
@@ -20,8 +20,8 @@ export const AppConfig = {
     //     this._token = value;
     // },
     get fmapID() {
-        //return 'md-xm-one-57-59';
-        return 'md-gz-1-2';
+        return 'md-xm-one-57-59';
+        //return 'md-gz-1-2';
     },
 
     get userName() {
