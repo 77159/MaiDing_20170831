@@ -32,6 +32,7 @@ import {createPeopleAPI, modifyPeopleAPI} from '../../api/serverApi';
 import {LOCATION_CHANGE} from 'react-router-redux';
 import requestError from "../../utils/requestError";
 import {queryAllPeopleBegin} from "../PeopleMgrPage/actions";
+import {queryAllNotDeviceBegin} from "../DeviceMgrPage/actions";
 
 /**
  * 添加人员
@@ -52,8 +53,9 @@ export function* createPeopleSaga(action) {
             yield put(showSuccessMessage(requestError.CREATE_PEOPLE_SUCCESS));   //提示成功信息
             //关闭窗口
             yield put(peopleFormModalHide());
-            //人员管理页面的数据重新加载
+            //人员管理页面的数据重新加载 
             yield put(queryAllPeopleBegin());
+            yield put(queryAllNotDeviceBegin());
         }
     } catch (error) {
         console.log(error);
@@ -84,6 +86,7 @@ export function* modifyPeopleSaga(action) {
             yield put(peopleFormModalHide());
             //人员管理页面的数据重新加载
             yield put(queryAllPeopleBegin());
+            yield put(queryAllNotDeviceBegin());
         }
     } catch (error) {
         console.log(error);

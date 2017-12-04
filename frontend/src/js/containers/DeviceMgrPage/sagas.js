@@ -103,7 +103,7 @@ export function* deleteDeviceSaga(action) {
         const response = yield call(deleteDevicesAPI, {deviceCodes: action.deviceCodes});
         //判断是否发生错误并处理
         if (!response || response.success == false) {
-            yield put(showErrorMessage(requestError.DELETE_DEVICE_ERROR));   //提示错误信息
+            yield put(showErrorMessage(response.error_message));   //提示错误信息
         } else {
             yield put(showSuccessMessage(requestError.DELETE_DEVICE_SUCCESS));
         }

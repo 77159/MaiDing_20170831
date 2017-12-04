@@ -49,9 +49,9 @@ export default class PeopleCard extends React.Component {
 
     render() {
         const {people} = this.props;
-
         return (
-            <Card style={{visibility: this.props.carVisibility}} noHovering={true} bordered={false} className={this.props.peopleInfoWinClassName} title={
+            <Card style={{visibility: this.props.carVisibility}} noHovering={true} bordered={false}
+                  className={this.props.peopleInfoWinClassName} title={
                 <span><Icon type="solution"/>人员编号： {people ? people.personCode : ''}</span>
             }
                   extra={<span className={styles.peopleClose} title="关闭"
@@ -59,7 +59,7 @@ export default class PeopleCard extends React.Component {
                       <Icon type="close"/></span>}
             >
                 <div className={styles.leftPeopleContent}>
-                    <Avatar className={styles.peopleAvatar}
+                    <Avatar className={people && people.onLine ? styles.peopleAvatar : 'disabledImage'}
                             src={this.getImageUrl(people ? people.avatarImgPath : '', people ? people.sex : 1)}/>
                     <span className={styles.nameTag}>{people ? people.personName : ''}</span>
                 </div>

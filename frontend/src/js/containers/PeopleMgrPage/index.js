@@ -255,6 +255,9 @@ export class PeopleMgrPage extends React.Component {
 
     delPeople = (personCode) => {
         this.props.deletePeople(personCode);
+        this.setState({
+            curSelectedRowKeys: [],
+        });
     };
 
 
@@ -265,7 +268,7 @@ export class PeopleMgrPage extends React.Component {
             curSelectedRowKeys,
             onChange: this.onSelectChange,
         };
-
+        
         const columns = [{
             title: '照片',
             dataIndex: 'avatarImgPath',
@@ -434,6 +437,7 @@ export class PeopleMgrPage extends React.Component {
                                 <Input maxLength="30"/>
                             </AutoComplete>
                         </Col>
+
                         <Col span={4}>
                             <Button type="primary" icon="search" size="large" className={styles.searchBtn}
                                     onClick={this.onFilterPeople}>查询</Button>
@@ -445,7 +449,7 @@ export class PeopleMgrPage extends React.Component {
                             <Popconfirm title="确认要批量删除所选人员吗？"
                                         onConfirm={() => this.delPeople(this.state.curSelectedRowKeys)}>
                                 <Button type="primary" icon="delete" size="large"
-                                        className={styles.addBtn}>批量删除</Button>
+                                        className={styles.addBtn} disabled={(this.state.curSelectedRowKeys.length) ? false : true}>批量删除</Button>
                             </Popconfirm>
                             <Button type="primary" icon="user-add" size="large" onClick={this.showAddPeopleModal}
                                     className={styles.addBtn}>添加人员</Button>

@@ -44,6 +44,10 @@ self.onmessage = function (event) {
     return;
 }
 
+//var wsUrl = "ws://127.0.0.1:8080/fm_csv/websocket.ws";
+//var wsUrl = "ws://123.56.157.128:8080/fm_csv/websocket.ws";
+//var wsUrl = "ws://192.168.1.97:8080/fm_csv/websocket.ws";
+
 
 var ws = null;
 
@@ -75,7 +79,7 @@ function newWebSocket(url, onopen, onmessage, onclose, onerror) {
 
 function openWS() {
     wsUrl = "ws://123.56.157.161:8082/fm_csv/websocket.ws?token=" + token;
-    //wsUrl = "ws://192.168.1.97:8080/fm_csv/websocket.ws?token=" + token;
+    //wsUrl = "ws://192.168.1.92:8080/fm_csv/websocket.ws?token=" + token;
     ws = newWebSocket(wsUrl, onOpen, onReceivedMessage, onClose, onError);
 }
 

@@ -103,6 +103,7 @@ class AreaFormPanel extends React.Component {
      * 取消地图区域表单面板
      */
     cancelArea = () => {
+        this.props.form.resetFields();
         this.props.cancelPolygon();
         this.props.lockForm();
     };
@@ -162,7 +163,9 @@ class AreaFormPanel extends React.Component {
                                     regexp: 'regexp',
                                     pattern: appRegExp.AREANAME,
                                     message: appRegExp.AREANAME_ERROR_MSG
-                                }, {validator: area.get('id') ? null : this.validatorAreaName}],
+                                }, {
+                                    validator: this.validatorAreaName
+                                }],
                                 initialValue: area.get('areaName'),
                             })(
                                 <Input placeholder="区域名称"/>

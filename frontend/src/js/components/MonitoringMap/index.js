@@ -444,7 +444,7 @@ export default class MonitoringMap extends React.Component {
 
     render() {
         return (
-            <div id="fengMap" style={{width: '100%', height: '100%', positio: 'relative'}}>
+            <div id="fengMap" style={{width: '100%', height: '100%', position: 'absolute'}}>
                 <div style={{
                     position: 'absolute',
                     width: 48,

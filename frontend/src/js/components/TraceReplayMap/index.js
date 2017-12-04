@@ -504,7 +504,6 @@ export default class TraceReplayMap extends React.Component {
         this.naviLineMarkers[personCode][key] = lineObject;
     };
 
-
     tracePlay = () => {
         const {seconds, startValue} = this.props;
 
@@ -649,7 +648,7 @@ export default class TraceReplayMap extends React.Component {
 
         return (
             <div style={{width: '100%', height: '100%'}}>
-                <div id="fengMap" style={{width: '100%', height: '100%', positio: 'relative'}}>
+                <div id="fengMap" style={{width: '100%', height: '100%', position: 'absolute'}}>
                     <div style={{
                         position: 'absolute',
                         width: 48,
@@ -676,7 +675,7 @@ export default class TraceReplayMap extends React.Component {
                         <div className={styles.playTimeTag}>
                             <span>{this.state.beginTime}</span><span> / {totalTime}</span>
                         </div>
-                        <span className={styles.speedTag}>快进{this.speedTag}</span>
+                        <span onClick={this.speed} className={styles.speedTag}>快进{this.speedTag}</span>
                     </div>
                     <Slider tipFormatter={() => {
                         return this.state.beginTime;
@@ -684,18 +683,20 @@ export default class TraceReplayMap extends React.Component {
                             value={this.ss} step={1}/>
                     <div className={styles.replayItemRow}>
                         <div>
+
                             <span>{startValue ? startValue.format('YYYY-MM-DD') : ''}<br/>{startValue ? startValue.format('HH:mm:ss') : ''}</span>
                         </div>
                         <div className={styles.ctlButtons}>
-                            <Button ghost size="large" onClick={() => {
+                            <Button ghost size="large" title={'开始/暂停'} onClick={() => {
                                 this.tracePlay();
-                            }}><Icon type={this.state.play ? 'pause-circle' : 'play-circle'}/></Button>
-                            <Button ghost size="large" onClick={() => {
+                            }}>{this.state.play ? <i className="iconfont">&#xe6cb;</i> :
+                                <i className="iconfont">&#xe6b7;</i>}</Button>
+                            <Button ghost size="large" title={'快进'} onClick={() => {
                                 this.speed();
-                            }}><Icon type="forward"/></Button>
-                            <Button ghost size="large" onClick={() => {
+                            }}><i className="iconfont">&#xe6bb;</i></Button>
+                            <Button ghost size="large" title={'清空'} onClick={() => {
                                 this.empty();
-                            }}><Icon type="minus-square"/></Button>
+                            }}><i className="iconfont">&#xe6bd;</i></Button>
                         </div>
                         <div>
                             <span>{endValue ? endValue.format('YYYY-MM-DD') : ''}<br/>{endValue ? endValue.format('HH:mm:ss') : ''}</span>

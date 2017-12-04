@@ -73,7 +73,7 @@ export class HeadContainer extends React.Component {
         this.setState({
             adminMenuVisible: visible
         });
-    }
+    };
 
     //region 修改密码
     showModifyPasswordModal = () => {

@@ -55,7 +55,8 @@ export const appRegExp = {
     AREAID: /^[\w]{3,15}$/,											//楼层ID
     AREAID_ERROR_MSG: '楼层ID规则为3~15位数字、字母、下划线',
     AREANAME: /^[a-zA-Z0-9-\u4e00-\u9fa5]{1,20}$/,					//区域名称
-    AREANAME_ERROR_MSG: '区域名称规则为1~20位中文、英文、数字、短横线',
+    //AREANAME_ERROR_MSG: '区域名称规则为1~20位中文、英文、数字、短横线',
+    AREANAME_ERROR_MSG: '区域名称错误',
     AREATYPE: /^[01]$/,												//区域类型
     AREATYPE_ERROR_MSG: '区域类型规则为数字0或者1',
     AREAREMARK: /^[\w\u4E00-\u9FA5\:\;\,\-\(\)\u3014-\u3015\uFF08-\uFF09][a-zA-Z0-9\u4E00-\u9FA5_:;,\(\)\s\-\u3014-\u3015\uFF08-\uFF09\：\；\，\.\。]{0,50}$/,	//区域备注

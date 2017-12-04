@@ -220,8 +220,15 @@ class CategoryForm extends React.Component {
         });
     };
 
+    /**
+     * 类别名称不能重复
+     * @param rule
+     * @param value
+     * @param callback
+     */
     validatorCategoryName = (rule, value, callback) => {
         const peopleCategory = this.props.peopleCategory;
+
         const categoryFilter = peopleCategory.filter((item) => {
             return item.name === value;
         });
@@ -231,24 +238,32 @@ class CategoryForm extends React.Component {
         callback();
     };
 
+    /**
+     * 级别名称重复验证
+     * @param rule
+     * @param value
+     * @param callback
+     */
     validatorChildrenName = (rule, value, callback) => {
         let flag = false;
         const peopleCategory = this.props.peopleCategory;
         for (let i = 0; i < peopleCategory.length; i++) {
-            const children = peopleCategory[i].childrenList;
-            for (let i = 0; i < children.length; i++) {
-                if (children[i].name === value) {
-                    flag = true;
+            if (peopleCategory[i].id === this.props.pid) {
+                const children = peopleCategory[i].childrenList;
+                for (let i = 0; i < children.length; i++) {
+                    if (children[i].name === value) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
                     break;
                 }
-            }
-            if (flag) {
-                break;
             }
         }
 
         if (flag) {
-            callback('类型名称不能重复');
+            callback('级别名称不能重复');
         }
         callback();
     };
@@ -281,10 +296,9 @@ class CategoryForm extends React.Component {
                             pattern: appRegExp.PERSON_CATEAGORY_NAME,
                             message: appRegExp.PERSON_CATEAGORY_NAME_ERROR_MSG
                         }, {
-                            validator: this.validatorCategoryName
+                            validator: null
                         }],
                         initialValue: this.props.parentName,
-
                     })(
                         <Input maxLength="10" disabled={postFormType === "category" ? false : true}/>
                     )}

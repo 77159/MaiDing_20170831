@@ -24,7 +24,8 @@ import {
 } from './actions';
 
 import {
-    showErrorMessage
+    showErrorMessage,
+    showSuccessMessage
 } from "../App/actions";
 import requestError from "../../utils/requestError";
 import {queryAllPeopleAPI, deletePeoplesAPI} from '../../api/serverApi';
@@ -56,14 +57,15 @@ export function* queryAllPeopleSaga() {
     yield put(peopleOpFinish());
 }
 
+//删除
 export function* delPeopleSaga(action) {
     try {
         const response = yield call(deletePeoplesAPI, {personCodes: action.personCodes});
         //判断是否发生错误并处理
         if (!response || response.success == false) {
-            yield put(showErrorMessage(requestError.GET_DATA_ERROR));   //提示错误信息
+            yield put(showErrorMessage(requestError.DELETE_PEOPLE_ERROR));   //提示错误信息
         } else {
-
+            yield put(showSuccessMessage(requestError.DELETE_PEOPLE_SUCCESS))
         }
     } catch (err) {
         console.log(err);

@@ -169,6 +169,7 @@ class PeopleFormModal extends React.Component {
     onSave = () => {
         const form = this.props.form;
         let imgURL = this.props.imgURL;
+
         form.validateFields((err, values) => {
             if (err) {
                 this.setState({visible: false, confirmLoading: false});
@@ -188,8 +189,11 @@ class PeopleFormModal extends React.Component {
             const personCode = values.personCode;
             this.props.modifyPeople(values);
             //form.resetFields();
-            this.props.getImgUrl('');
+            // this.props.getImgUrl('');
+            this.props.getImgUrl(this.props.peopleEntity.avatarImgPath);
         });
+
+
     };
 
     render() {

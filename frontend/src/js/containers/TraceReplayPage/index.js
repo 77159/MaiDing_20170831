@@ -394,6 +394,24 @@ export class TraceReplayPage extends React.Component {
             })
         }
     };
+
+
+    /**
+     * 显示/隐藏personImageMarker
+     * @param personCode
+     */
+    showVisiblePersonImageMarker = (personCode, visible) => {
+        const personMarker = this.personMarkers[personCode];
+        if (personMarker) {
+            personMarker.visible = visible;
+
+            this.setState({
+                visiblePersonImage: {personCode: personCode, visible: visible}
+            })
+        }
+    };
+
+
     /**
      * 根据人员编号移至视野中心点
      * @param personCode 需要定位的人员的编号
@@ -465,12 +483,15 @@ export class TraceReplayPage extends React.Component {
                         <div className={styles.operateContent}>
                             <Button onClick={(e) => {
                                 this.visiblePersonImageMarker(people.personCode);
+                                this.setState({moveToCenterPersonCode: ''});
+                                this.moveToCenterPersonCode = '';
                             }}
                                     type="primary"
                                     icon={visible ? 'eye-o' : 'eye'}
                                     title="隐藏/可见"/>
                             <Button onClick={(e) => {
                                 this.moveToPersionImageMarker(people.personCode);
+                                this.showVisiblePersonImageMarker(people.personCode, true);
                             }}
                                     type="primary"
                                     style={{color: color}}
@@ -601,6 +622,8 @@ export class TraceReplayPage extends React.Component {
             visibleReplay: false,
             seconds: null,
             sPeopleList: null,
+            startValue: null,
+            endValue: null
         });
 
         //清空轨迹回放信息
@@ -675,8 +698,10 @@ export class TraceReplayPage extends React.Component {
         const selectPersonList = this.state.selectPersonList;
         let list = [];
         if (keyword) {
+            keyword = keyword.toLocaleLowerCase();
             list = selectPersonList.filter((item) => {
-                return item.personName.indexOf(keyword) >= 0 || item.personCode.indexOf(keyword) >= 0;
+                const personName = item.personName.toLocaleLowerCase();
+                return personName.indexOf(keyword) >= 0 || personName.indexOf(keyword) >= 0;
             });
         } else {
             list = selectPersonList;
@@ -692,8 +717,11 @@ export class TraceReplayPage extends React.Component {
         const peopleList = this.props.peopleList;
         let list = [];
         if (keyword) {
+            keyword = keyword.toLocaleLowerCase();
             list = peopleList.filter((item) => {
-                return item.personName.indexOf(keyword) >= 0 || item.personCode.indexOf(keyword) >= 0;
+                const personName = item.personName.toLocaleLowerCase();
+                const personCode = item.personCode.toLocaleLowerCase();
+                return personName.indexOf(keyword) >= 0 || personCode.indexOf(keyword) >= 0;
             });
         } else {
             list = peopleList;
@@ -747,6 +775,11 @@ export class TraceReplayPage extends React.Component {
         for (let key in personMarkers) {
             personMarkers[key].visible = visible;
             visibleNaviLineMarkers(key, visible);
+        }
+
+        if (!visible) {
+            this.setState({moveToCenterPersonCode: ''});
+            this.moveToCenterPersonCode = '';
         }
     };
 

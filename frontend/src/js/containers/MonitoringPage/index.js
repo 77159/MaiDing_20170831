@@ -152,7 +152,8 @@ const CollectionCreateForm = Form.create()(
 
         return (
             <Modal
-                title={<span><Icon type="hdd"/>今日报警</span>}
+                title={<span><img style={{margin: '-1px 3px 0 0'}}
+                                  src="./img/fm_controls/alarm_w.png"></img>今日报警</span>}
                 visible={visible}
                 onOk={onCreate}
                 onCancel={onCancel}
@@ -251,14 +252,14 @@ export class MonitoringPage extends React.Component {
             this.setState({
                 peopleList: nextProps.peopleList
             });
+            this.peopleList = nextProps.peopleList
         }
 
         if (_.eq(this.onLineDevice, nextProps.onLineDevice) == false) {
-            this.onLineDevice = nextProps.onLineDevice;
-
             this.setState({
                 peopleList: nextProps.peopleList
             });
+            this.onLineDevice = nextProps.onLineDevice;
         }
     };
 
@@ -435,6 +436,21 @@ export class MonitoringPage extends React.Component {
     };
 
     /**
+     * 人员显示/隐藏
+     * @param e
+     */
+    showVisiblePeople = (personCode, visible) => {
+        const obj = this.personImageMarkers[personCode];
+        if (obj) {
+            if (!obj.imageMarker) return;
+            let imageMarker = obj.imageMarker;
+            if (!imageMarker.visible) {
+                imageMarker.visible = visible;
+            }
+        }
+    };
+
+    /**
      * 显示/隐藏地图上所有的imageMarker
      * @param visible 显示(true)/隐藏(false)参数
      */
@@ -448,6 +464,12 @@ export class MonitoringPage extends React.Component {
                 let imageMarker = personMarker.imageMarker;
                 imageMarker.visible = visible;
             }
+        }
+
+        if (!visible) {
+            this.setState({
+                positionPersonCode: ''
+            })
         }
     };
 
@@ -557,8 +579,8 @@ export class MonitoringPage extends React.Component {
             const color = this.state.positionPersonCode === personCode ? '#FFC600' : '#f2f2f2';
             const visible = this.getVisiblePersonMarker(personCode);
             return (
-                <Menu.Item key={personCode} disabled={!people.onLine}>
-                    <Avatar size="large"
+                <Menu.Item key={personCode}>
+                    <Avatar className={!people.onLine ? 'disabledImage' : ''} size="large"
                             src={this.getImageUrl(people.avatarImgPath, people.sex)}/>
                     <div className={styles.content}>
                         <div className={styles.code}>{people.personCode}</div>
@@ -577,6 +599,9 @@ export class MonitoringPage extends React.Component {
                                 <Button onClick={(e) => {
                                     e.stopPropagation();
                                     this.visiblePeopleBtn(e, personCode);
+                                    this.setState({
+                                        positionPersonCode: ''
+                                    })
                                 }}
                                         type="primary"
                                         icon={visible ? 'eye-o' : 'eye'}
@@ -585,6 +610,7 @@ export class MonitoringPage extends React.Component {
                                     e.stopPropagation();
                                     this.peopleLocationBtn(e, personCode);
                                     this.onPeopleItemSelected({key: personCode});
+                                    this.showVisiblePeople(personCode, true)
                                 }}
                                         type="primary"
                                         icon="environment"
@@ -735,8 +761,11 @@ export class MonitoringPage extends React.Component {
         const peopleList = this.props.peopleList;
         let list = [];
         if (keyword) {
+            keyword = keyword.toLocaleLowerCase();
             list = peopleList.filter((item) => {
-                return item.personName.indexOf(keyword) >= 0 || item.personCode.indexOf(keyword) >= 0;
+                const personName = item.personName.toLocaleLowerCase();
+                const personCode = item.personCode.toLocaleLowerCase();
+                return personName.indexOf(keyword) >= 0 || personCode.indexOf(keyword) >= 0;
             });
         } else {
             list = peopleList;
@@ -752,6 +781,8 @@ export class MonitoringPage extends React.Component {
         if (!areaId) return;
         const keyArea = this.props.keyArea;
         if (!keyArea) return;
+        //关闭当前窗口
+        this.handleCancel();
         const areaArr = keyArea.filter((area) => {
             return area.id === areaId;
         });

@@ -255,10 +255,18 @@ export default class AreaSettingMap extends React.Component {
         this.props.freshenPolygon(areaList);
 
         return (
-            <div style={{width: '100%', height: '100%'}}>
+            <div style={{width: '100%', height: '100%', position: 'absolute'}}>
                 {/*地图*/}
                 <div id="fengMap" style={{width: '100%', height: '100%'}}>
-                    <div style={{position: 'absolute', width: 48, right: '20px', top: '70px', display: 'flex', justifyContent: 'baseline', flexDirection: 'column'}}>
+                    <div style={{
+                        position: 'absolute',
+                        width: 48,
+                        right: '20px',
+                        top: '70px',
+                        display: 'flex',
+                        justifyContent: 'baseline',
+                        flexDirection: 'column'
+                    }}>
                         <span className={styles.mapActionBtn} onClick={this.changeModelView}>
                             <img src={`./img/fm_controls/${this.state.modelView}.png`}></img>
                         </span>

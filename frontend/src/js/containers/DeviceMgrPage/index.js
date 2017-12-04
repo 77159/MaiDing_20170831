@@ -49,6 +49,7 @@ export class DeviceMgrPage extends React.Component {
             curSelectedRowKeys: [],
             autoComplete_deviceCode: [],       //设备编号自动完成提示数组
             autoComplete_personCode: [],       //安保编号自动完成提示数组
+            autoComplete_personName: [],       //安保编号自动完成提示数组
         };
     }
 
@@ -61,7 +62,7 @@ export class DeviceMgrPage extends React.Component {
     //数据过滤器 value:筛选条件 record 设备数据 index 数据索引
     deviceDataFilter = (value, record) => {
         let filters = value.split('&&');
-        if (filters.length != 4) {
+        if (filters.length != 5) {
             console.error('设备筛选条件长度错误');
             return true; //忽略过滤器
         }
@@ -69,8 +70,9 @@ export class DeviceMgrPage extends React.Component {
         return record != null &&
             (_.isEmpty(filters[0]) || (_.isNull(record.deviceCode) == false && record.deviceCode.includes(filters[0]))) &&
             (_.isEmpty(filters[1]) || (_.isNull(record.personCode) == false && record.personCode.includes(filters[1]))) &&
-            (record.workStatus == filters[2] || filters[2] == 'all') &&
-            (record.deviceStatus == filters[3] || filters[3] == 'all')
+            (_.isEmpty(filters[2]) || (_.isNull(record.personName) == false && record.personName.includes(filters[2]))) &&
+            (record.workStatus == filters[3] || filters[3] == 'all') &&
+            (record.deviceStatus == filters[4] || filters[4] == 'all')
     }
 
     //查询设备（筛选）
@@ -78,7 +80,8 @@ export class DeviceMgrPage extends React.Component {
         //保证参数不能为null、undefined
         let deviceCode = _.isEmpty(this.state.filter_deviceCode) ? '' : this.state.filter_deviceCode.trim();
         let personCode = _.isEmpty(this.state.filter_personCode) ? '' : this.state.filter_personCode.trim();
-        let filterStr = `${deviceCode}&&${personCode}&&${this.state.filter_workStatus}&&${this.state.filter_deviceStatus}`;
+        let personName = _.isEmpty(this.state.filter_personName) ? '' : this.state.filter_personName.trim();
+        let filterStr = `${deviceCode}&&${personCode}&&${personName}&&${this.state.filter_workStatus}&&${this.state.filter_deviceStatus}`;
         this.setState({
             //将多个筛选条件拼接为一个条件，利于后续在一次循环中集中判断，减少[deviceDataFilter]循环判断次数
             dataFilter: [
@@ -97,6 +100,7 @@ export class DeviceMgrPage extends React.Component {
             dataFilter: null,
             autoComplete_deviceCode: [],
             autoComplete_personCode: [],
+            autoComplete_personName: [],
         });
         //刷新数据
         this.props.queryAllDevice();
@@ -123,6 +127,9 @@ export class DeviceMgrPage extends React.Component {
     //删除设备
     onDeleteDevice = (deviceCode) => {
         this.props.deleteDevice(deviceCode);
+        this.setState({
+            curSelectedRowKeys: [],
+        });
     }
 
     onSelectChange = (keys) => {
@@ -165,7 +172,27 @@ export class DeviceMgrPage extends React.Component {
         this.setState({
             autoComplete_personCode: data,
         });
-    }
+    };
+
+    //安保姓名自动完成填充
+    onPersonNameAutoCompleteSearch = (value) => {
+        let deviceDataSource = this.props.deviceDataSource;
+        let data = [];
+        //非空，且自动提示最少需要输入3个字符
+        if (_.isEmpty(value) == false && value.trim().length > 2) {
+            //遍历设备数据集合，将安保编号中包含输入字符的完整编号数据写入自动完成提示数据集合中。
+            deviceDataSource.forEach(deviceEntity => {
+                if(deviceEntity.personName) {
+                    if (deviceEntity.personName.includes(value)) {
+                        data.push(deviceEntity.personName);
+                    }
+                }
+            });
+        }
+        this.setState({
+            autoComplete_personName: data,
+        });
+    };
 
     render() {
         const {curSelectedRowKeys} = this.state;
@@ -222,9 +249,9 @@ export class DeviceMgrPage extends React.Component {
                 }
             }
         }, {
-            title: '备注',
-            dataIndex: 'remark',
-            key: 'remark',
+            title: '安保姓名',
+            dataIndex: 'personName',
+            key: 'personName',
         }, {
             title: '安保编号',
             dataIndex: 'personCode',
@@ -233,6 +260,7 @@ export class DeviceMgrPage extends React.Component {
             title: '添加日期',
             dataIndex: 'createTime',
             key: 'createTime',
+            width: '150px',
             render: (text) => {
                 if (_.isNumber(text)) {
                     return new Date(text).format("yyyy-M-d hh:mm");
@@ -241,6 +269,11 @@ export class DeviceMgrPage extends React.Component {
                 }
             },
         }, {
+            title: '备注',
+            dataIndex: 'remark',
+            key: 'remark',
+            width: '200px',
+        },{
             title: '操作',
             key: 'operation',
             width: 280,
@@ -265,7 +298,7 @@ export class DeviceMgrPage extends React.Component {
             <Layout className={styles.layout}>
                 <Content className={styles.content}>
                     <Row type="flex" align="middle">
-                        <Col span={4} className={styles.item}>
+                        <Col span={3} className={styles.item}>
                             <span>设备编号</span>
                             <AutoComplete
                                 dataSource={this.state.autoComplete_deviceCode}
@@ -278,7 +311,7 @@ export class DeviceMgrPage extends React.Component {
                                 <Input maxLength="15"/>
                             </AutoComplete>
                         </Col>
-                        <Col span={4} className={styles.item}>
+                        <Col span={3} className={styles.item}>
                             <span>安保编号</span>
                             <AutoComplete
                                 dataSource={this.state.autoComplete_personCode}
@@ -291,7 +324,22 @@ export class DeviceMgrPage extends React.Component {
                                 <Input maxLength="15"/>
                             </AutoComplete>
                         </Col>
-                        <Col span={4} className={styles.item}>
+
+                        <Col span={3} className={styles.item}>
+                            <span>安保姓名</span>
+                            <AutoComplete
+                                dataSource={this.state.autoComplete_personName}
+                                onSearch={this.onPersonNameAutoCompleteSearch}
+                                allowClear={true}
+                                placeholder="安保姓名" size="large"
+                                onChange={(value) => this.setState({filter_personName: value})}
+                                value={this.state.filter_personName}
+                            >
+                                <Input maxLength="15"/>
+                            </AutoComplete>
+                        </Col>
+
+                        <Col span={3} className={styles.item}>
                             <span>工作状态</span>
                             <Select defaultValue="all" value={this.state.filter_workStatus} size="large"
                                     onChange={(value) => this.setState({filter_workStatus: value})}>
@@ -300,7 +348,7 @@ export class DeviceMgrPage extends React.Component {
                                 <Option value="0">离线</Option>
                             </Select>
                         </Col>
-                        <Col span={4} className={styles.item}>
+                        <Col span={3} className={styles.item}>
                             <span>设备状态</span>
                             <Select defaultValue="all" value={this.state.filter_deviceStatus} size="large"
                                     onChange={(value) => this.setState({filter_deviceStatus: value})}>
@@ -317,7 +365,8 @@ export class DeviceMgrPage extends React.Component {
                         <Col span={4} className={styles.textRight}>
                             <Popconfirm title="确认要批量删除所选设备吗？"
                                         onConfirm={() => this.onDeleteDevice(this.state.curSelectedRowKeys)}>
-                                <Button type="primary" icon="delete" size="large" className={styles.addBtn}>批量删除</Button>
+                                <Button type="primary" icon="delete" size="large" className={styles.addBtn}
+                                        disabled={(this.state.curSelectedRowKeys.length) ? false : true}>批量删除</Button>
                             </Popconfirm>
                             <Button type="primary" icon="hdd" size="large" className={styles.addBtn}
                                     onClick={this.showCreateDeviceModal}>添加设备</Button>

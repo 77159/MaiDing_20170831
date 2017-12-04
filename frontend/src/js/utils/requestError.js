@@ -32,6 +32,9 @@ const requestError = {
     //修改人员
     MODIFY_PEOPLE_ERROR: '修改人员时出现错误',
     MODIFY_PEOPLE_SUCCESS: '修改人员成功',
+    //删除人员
+    DELETE_PEOPLE_ERROR: '删除人员失败，请稍后再试',
+    DELETE_PEOPLE_SUCCESS: '删除人员成功',
     //人员退出
     DROP_OUT_ERROR: '退出失败',
     DROP_OUT_SUCCESS: '退出成功',
