@@ -11,8 +11,8 @@ export const appRegExp = {
     intNumber: /^[1-9]\d*$/, //正整数
     ///////////////////////////////////////////////////
     /**********地磁设备**********/
-    DEVICECODE: /^[a-zA-Z0-9]{3,15}$/,                               //设备编号
-    DEVICECODE_ERROR_MSG: '设备编号规则为3~15位英文字母、数字',
+    DEVICECODE: /^[a-zA-Z0-9]{2,15}$/,                               //设备编号
+    DEVICECODE_ERROR_MSG: '设备编号规则为2~15位英文字母、数字',
     DEVICENAME: /^[a-zA-Z0-9-\u4e00-\u9fa5]{0,20}$/,                 //设备名称
     DEVICENAME_ERROR_MSG: '设备名称规则为0~20位中文、英文、数字、短横线',
     DEVICESTATUS: /^[01]$/,											//设备状态
@@ -25,8 +25,8 @@ export const appRegExp = {
     DEVICEINFO_ERROR_MSG: '设备标识规则为设备编号+标识，由数字、英文逗号、短横杠组成',
 
     /**********安保人员**********/
-    PERSONCODE: /^[a-zA-Z0-9]{3,15}$/,								//人员编号
-    PERSONCODE_ERROR_MSG: '人员编号规则为3~15英文字母、数字',
+    PERSONCODE: /^[a-zA-Z0-9]{2,15}$/,								//人员编号
+    PERSONCODE_ERROR_MSG: '人员编号规则为2~15英文字母、数字',
     PERSONNAME: /^[a-zA-Z\u4e00-\u9fa5]{2,4}$/,						//人员姓名
     PERSONNAME_ERROR_MSG: '人员姓名规则为2~4位中文或英文字母',
     PERSONSEX: /^[01]$/,												//人员性别

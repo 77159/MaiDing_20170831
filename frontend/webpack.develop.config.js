@@ -25,7 +25,7 @@ const config = {
     // 入口文件，是模块构建的起点，同时每一个入口文件对应最后生成的一个chunk（编译后的独立文件）。
     entry: [
         //'webpack-hot-middleware/client?reload=true',
-        //'webpack-dev-server/client?http://localhost:8888',  // WebpackDevServer host and port
+        // 'webpack-dev-server/client?http://localhost:8080',  // WebpackDevServer host and port
         'webpack-dev-server/client?http://0.0.0.0:8888',  // WebpackDevServer host and port
         'webpack/hot/only-dev-server',
         path.join(process.cwd(), '/src/js/app.js'),         //设置入口文件的相对路径
@@ -43,7 +43,7 @@ const config = {
         hot: true,                                  //启用webpack的热模块更换功能
         inline: true,                               //启用内联模式
         port: 8888,                                 //服务器端口
-        //host: 'localhost',                          //服务器地址
+        // host: 'localhost',                        //服务器地址
         host: '0.0.0.0',
         historyApiFallback: true                    //启用HTML5的历史记录？
     },

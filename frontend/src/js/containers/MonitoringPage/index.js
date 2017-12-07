@@ -150,6 +150,11 @@ const CollectionCreateForm = Form.create()(
             pageSize: 10
         };
 
+        let sortData = alertMessageData.toArray();
+        sortData.sort(function(a, b){
+            return a < b ? -1 : 1;
+        });
+
         return (
             <Modal
                 title={<span><img style={{margin: '-1px 3px 0 0'}}
@@ -168,7 +173,7 @@ const CollectionCreateForm = Form.create()(
                        size="middle"
                        pagination={pagination}
                        columns={columns}
-                       dataSource={alertMessageData.toArray()}
+                       dataSource={sortData}
                        onRowClick={(record, index, event) => {
                            putMessageIsRead(record.key);
                        }}>

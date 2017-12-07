@@ -14,6 +14,7 @@ const requestError = {
     MODIFY_DEVICE_SUCCESS: '修改成功',
     //删除设备
     DELETE_DEVICE_ERROR: '删除设备失败，请稍后再试',
+    DELETE_DEVICES_ERROR: '删除设备失败，已绑定人员，请先解除绑定',
     DELETE_DEVICE_SUCCESS: '删除设备成功',
 
     /*************************** 人员类型 ***************************/
