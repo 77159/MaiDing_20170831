@@ -64,7 +64,7 @@ export const appRegExp = {
 
     /**********系统用户**********/
     USERNAME: /^[0-9a-zA-Z\u4e00-\u9fa5_@.]{3,15}$/,					//用户名
-    USERNAME_ERROR_MSG: '用户名规则为3~15位中文、数字、英文字母、或者下划线、@符号、英文.',
+    USERNAME_ERROR_MSG: '用户名为3~15位中英文、数字、或下划线',
     PASSWORD: /^[\w]{6,16}$/,										//密码
     PASSWORD_ERROR_MSG: '密码规则为6~16位数字、字母、下划线',
 

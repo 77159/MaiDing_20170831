@@ -192,12 +192,12 @@ export class TraceReplayPage extends React.Component {
      * @param startValue
      * @returns {boolean}
      */
-    disabledStartDate = (startValue) => {
-        const endValue = this.state.endValue;
-        if (!startValue || !endValue) {
-            return false;
-        }
-        return startValue.valueOf() > endValue.valueOf();
+    disabledStartDate = (endValue) => {
+        // const endValue = this.state.endValue;
+        // if (!startValue || !endValue) {
+        //     return false;
+        // }
+        return endValue && endValue.valueOf() >= Date.now();
     };
 
     /**
@@ -206,11 +206,11 @@ export class TraceReplayPage extends React.Component {
      * @returns {boolean}
      */
     disabledEndDate = (endValue) => {
-        const startValue = this.state.startValue;
-        if (!endValue || !startValue) {
-            return false;
-        }
-        return endValue.valueOf() <= startValue.valueOf();
+        // const startValue = this.state.startValue;
+        // if (!endValue || !startValue) {
+        //     return false;
+        // }
+        return endValue && endValue.valueOf() >= Date.now();
     };
 
     /**

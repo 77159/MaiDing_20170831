@@ -130,7 +130,7 @@ class AreaFormPanel extends React.Component {
     render() {
         const {getFieldDecorator} = this.props.form;
         const {area, lock} = this.props;            //state
-
+        
         if (area) {
             area.areaStype = JSON.parse(area.get('areaStyle'));
         }
@@ -164,7 +164,7 @@ class AreaFormPanel extends React.Component {
                                     pattern: appRegExp.AREANAME,
                                     message: appRegExp.AREANAME_ERROR_MSG
                                 }, {
-                                    validator: this.validatorAreaName
+                                    // validator: this.validatorAreaName
                                 }],
                                 initialValue: area.get('areaName'),
                             })(

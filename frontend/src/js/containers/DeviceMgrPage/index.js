@@ -49,7 +49,7 @@ export class DeviceMgrPage extends React.Component {
             curSelectedRowKeys: [],
             autoComplete_deviceCode: [],       //设备编号自动完成提示数组
             autoComplete_personCode: [],       //安保编号自动完成提示数组
-            autoComplete_personName: [],       //安保编号自动完成提示数组
+            filter_personName: '',       //安保姓名自动完成提示数组
         };
     }
 
@@ -93,14 +93,15 @@ export class DeviceMgrPage extends React.Component {
     //重置
     onResetSearch = () => {
         this.setState({
-            filter_deviceCode: '',
-            filter_personCode: '',
-            filter_workStatus: 'all',
-            filter_deviceStatus: 'all',
-            dataFilter: null,
-            autoComplete_deviceCode: [],
-            autoComplete_personCode: [],
-            autoComplete_personName: [],
+            filter_deviceCode: '',             //设备编号-筛选条件，需要初始化，不要设置为null
+            filter_personCode: '',             //安保编号-筛选条件，需要初始化，不要设置为null
+            filter_workStatus: 'all',          //工作状态-筛选条件 [all] 全部（默认）[0] 离线 [1] 工作
+            filter_deviceStatus: 'all',        //设备状态-筛选条件 [all] 全部（默认）[0] 禁用 [1] 启用
+            dataFilter: null,                  //数据过滤器数组，只有一条记录，将筛选条件用&&连接。格式：['设备编号'&&'安保编号'&&'工作状态'&&'设备状态']
+            curSelectedRowKeys: [],
+            autoComplete_deviceCode: [],       //设备编号自动完成提示数组
+            autoComplete_personCode: [],       //安保编号自动完成提示数组
+            filter_personName: '',       //安保姓名自动完成提示数组
         });
         //刷新数据
         this.props.queryAllDevice();

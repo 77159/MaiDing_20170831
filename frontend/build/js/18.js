@@ -1,0 +1,2 @@
+webpackJsonp([18],{1149:function(e,t,r){"use strict";function n(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:u;return arguments[1].type,e}Object.defineProperty(t,"__esModule",{value:!0});var o=r(63),u=(r(1228),(0,o.fromJS)({username:""}));t.default=n},1228:function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});t.CHANGE_USERNAME="boilerplate/Home/CHANGE_USERNAME"}});
+//# sourceMappingURL=18.js.map

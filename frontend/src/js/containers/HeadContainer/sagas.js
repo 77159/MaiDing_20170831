@@ -17,12 +17,15 @@ export function* loginOutSaga(action) {
     try {
         //发起异步网络请求，并获取返回结果
         const response = yield call(loginOutAPI, action);
-        console.log(response);
         //是否发生了错误，或者请求失败
         if (!response || response.success == false) {
             //TODO 此处以后要对应接口的错误码，目前只能显示一种错误类型
             yield put(showErrorMessage(requestError.DROP_OUT_ERROR));
-        } else {
+        }else if(response.error_code === 202203){
+            document.cookie = '';
+            yield put(showSuccessMessage(requestError.DROP_OUT_SUCCESS));
+            browserHistory.push('/');    //切换页面
+        }else {
             document.cookie = '';
             yield put(showSuccessMessage(requestError.DROP_OUT_SUCCESS));
             browserHistory.push('/');    //切换页面
